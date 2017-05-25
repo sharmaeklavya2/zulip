@@ -26,7 +26,6 @@ class SimpleQueueClient(object):
         # type: () -> None
         self.log = logging.getLogger('zulip.queue')
         self.queues = set()  # type: Set[str]
-        self.channel = None  # type: Optional[BlockingChannel]
         self.consumers = defaultdict(set)  # type: Dict[str, Set[Consumer]]
         # Disable RabbitMQ heartbeats since BlockingConnection can't process them
         self.rabbitmq_heartbeat = 0
@@ -36,13 +35,11 @@ class SimpleQueueClient(object):
         # type: () -> None
         start = time.time()
         self.connection = pika.BlockingConnection(self._get_parameters())
-        self.channel    = self.connection.channel()
+        self.channel    = self.connection.channel()  # type: BlockingChannel
         self.log.info('SimpleQueueClient connected (connecting took %.3fs)' % (time.time() - start,))
 
     def _reconnect(self):
         # type: () -> None
-        self.connection = None
-        self.channel = None
         self.queues = set()
         self._connect()
 
