@@ -6,13 +6,11 @@ from django.utils.timezone import utc as timezone_utc
 
 def floor_to_hour(dt):
     # type: (datetime.datetime) -> datetime.datetime
-    return datetime.datetime(*dt.timetuple()[:4]) \
-                   .replace(tzinfo=dt.tzinfo)
+    return datetime.datetime(*dt.timetuple()[:4]).replace(tzinfo=dt.tzinfo)  # type: ignore # https://github.com/python/typeshed/pull/1347
 
 def floor_to_day(dt):
     # type: (datetime.datetime) -> datetime.datetime
-    return datetime.datetime(*dt.timetuple()[:3]) \
-                   .replace(tzinfo=dt.tzinfo)
+    return datetime.datetime(*dt.timetuple()[:3]).replace(tzinfo=dt.tzinfo)  # type: ignore # https://github.com/python/typeshed/pull/1347
 
 def ceiling_to_hour(dt):
     # type: (datetime.datetime) -> datetime.datetime
